@@ -1,0 +1,49 @@
+/*Quitar las flechas de aumento del input*/
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+.opc {
+    height: 90px;
+    width: 300px;
+    border-color: black;
+    background-color: lightblue;
+    border-radius: 5px;
+    top: 10%;
+    right: 40px;
+}
+
+.encabezado {
+    align-items: center;
+    display: flex;
+    height: 100px;
+    justify-content: center;
+    width: 200px;
+    height: 70px;
+    width: 100%;
+    text-align: center;
+    border-color: black;
+    background-color: #1ABC9C;
+    color: white;
+    border-radius: 2px;
+}
+
+.usu {
+    background-color: transparent;
+    height: 70px;
+    width: 100%;
+    text-align: center;
+    border-color: black;
+    border-color: black;
+}
+
+.color {
+    background-color: #F2F3F4;
+}

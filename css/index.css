@@ -1,0 +1,77 @@
+/*Quitar las flechas de aumento del input*/
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+.divider:after,
+.divider:before {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: #eee;
+}
+
+.h-custom {
+    height: calc(100% - 73px);
+}
+
+@media (max-width: 450px) {
+    .h-custom {
+        height: 100%;
+    }
+}
+
+.div {
+    text-align: center;
+    color: white;
+}
+
+
+/*.ubicar{
+
+   position: absolute;
+    top: 66px;
+    right: 70px;
+
+
+  border-radius: 1rem ;
+  background-color: black;
+  background-color: white;
+  height: 550px;
+  width: 450px;
+  
+}
+
+.ini{
+  background-image: url("img/salud.png"); 
+  background-repeat: no-repeat;
+
+}
+
+.linea {
+  border-top: 1px solid black;
+  height: 2px;
+  max-width: 200px;
+  padding: 0;
+  margin: 20px auto 0 auto;
+}
+
+h1{
+
+  text-align: center;
+}
+
+.header{
+  background-color: blue;
+  height: 40px;
+  color: white;
+}
+
+*/
