@@ -4,6 +4,7 @@
     $ob = new conexion();
     $link = $ob->conectar();
     $opcion=(isset($_POST['opcion']))?$_POST['opcion']:'';
+    //PACIENTE
     $uId=(isset($_POST['uId']))?$_POST['uId']:'';
     $uNombre=(isset($_POST['uNombre']))?$_POST['uNombre']:'';
     $uDireccion=(isset($_POST['uDireccion']))?$_POST['uDireccion']:'';
@@ -11,6 +12,12 @@
     $uPassword=(isset($_POST['uPassword']))?$_POST['uPassword']:'';
     $uMunicipio=(isset($_POST['uMunicipio']))?$_POST['uMunicipio']:'';
     $uAfiliacion=(isset($_POST['uAfiliacion']))?$_POST['uAfiliacion']:'';
+    //CITAS
+    $especialidad=(isset($_POST['especialidad']))?$_POST['especialidad']:'';
+    $diasemana=(isset($_POST['diasemana']))?$_POST['diasemana']:'';
+    $fechacita=(isset($_POST['fechacita']))?$_POST['fechacita']:'';
+    $idMedico=(isset($_POST['idMedico']))?$_POST['idMedico']:'';
+    $licenciaMedico=(isset($_POST['licenciaMedico']))?$_POST['licenciaMedico']:'';
     $data = null;
     switch($opcion){
         case 1://listar municipios
@@ -42,6 +49,11 @@
             }
             break;
         case 4://Login
+            $sql="select verificarcontratomedico()";
+            $sentencia = $link->query($sql);
+            $sql="select verificarestadomedico()";
+            $sentencia = $link->query($sql);
+
             $sql = "select u.idusuario, u.rol_fk, u.clave, p.nombre from usuario u join persona p on (u.idusuario = p.idpersona) where u.idusuario = $uId";
             $sentencia = $link->query($sql);
             if($sentencia->rowCount()>=1){
@@ -62,6 +74,36 @@
             unset($_SESSION['nombre']);
             unset($_SESSION['rol']);
             session_destroy();
+            break;
+        case 6://listar especialidades
+            $sql = "select * from tipoespecialidad";
+            $sentencia = $link->query($sql);
+            $data=$sentencia->fetchAll(PDO::FETCH_OBJ);
+            break;
+        case 7://listar medicos disponibles:          
+            $sql ="select m.numlicencia, m.idmedico , p.nombre, ti.especialidad
+            from persona p join usuario u on (p.idpersona = u.idusuario) 
+            join empleado em on (em.idempleado = u.idusuario)
+            join medico m on (m.idmedico = em.idempleado)
+            join especialidad es on (es.idmedico = m.idmedico)
+            join tipoespecialidad ti on (ti.idespecialidad = es.idespecialidad)
+            join cumplir c on (m.idmedico = c.idmedico)
+            where m.estado = true and c.iddia = $diasemana and es.idespecialidad=$especialidad";
+            $sentencia = $link->query($sql);
+            $data=$sentencia->fetchAll(PDO::FETCH_OBJ);
+            break;
+        case 8://horarios de cita que tiene un medico una fecha especifico
+            $sql = "select fechaconsulta from cita where idmedico = $idMedico and fechaconsulta >= '$fechacita 00:00:00' and fechaconsulta <= '$fechacita 23:59:00'";
+            $sentencia = $link->query($sql);
+            $data=$sentencia->fetchAll(PDO::FETCH_OBJ);
+            break;
+        case 9://horario que tiene de consulta un medico un dia especifico
+            $sql = "select h.horainicio,h.horafinal
+            from medico m join cumplir c on (c.idmedico = m.idmedico) 
+            join horario h on (c.idhorario = h.idhorario)
+            where m.idmedico = $idMedico and c.iddia = $diasemana";
+            $sentencia = $link->query($sql);
+            $data=$sentencia->fetchAll(PDO::FETCH_OBJ);
             break;
     };
     print json_encode($data,JSON_UNESCAPED_UNICODE);
