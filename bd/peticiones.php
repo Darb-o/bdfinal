@@ -105,6 +105,11 @@
             $sentencia = $link->query($sql);
             $data=$sentencia->fetchAll(PDO::FETCH_OBJ);
             break;
+        case 10://Insertar cita en la body
+            $paciente = $_SESSION['usuario'];
+            $sql = "insert into cita (idmedico,numlicencia,idpaciente,fechaconsulta) values($idMedico,$licenciaMedico,$paciente,'$fechacita')";
+            $sentencia = $link->query($sql);
+            break;
     };
     print json_encode($data,JSON_UNESCAPED_UNICODE);
 ?>

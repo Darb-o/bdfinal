@@ -174,15 +174,14 @@ $("#btnCerrarSesion").click(function(e) {
     })
 });
 
-$("#btnAgendarCita").click(function(e) {
+$("#btnAgendarCita1").click(function(e) {
     $("#modalCita").modal('show');
+    $("#fechaCita").val("");
 });
 
-$("#btnprueba").click(function(e) {
-    let fechanueva = new Date('2021-10-13 06:00:00');
-    let otrafecha = moment(fechanueva).add(30, 'm').format('YYYY/MM/DD hh:mm');
-    console.log(fechanueva);
-    console.log(otrafecha);
+$("#btnAgendarCita2").click(function(e) {
+    $("#modalCita").modal('show');
+    $("#fechaCita").val("");
 });
 
 $("#fechaCita").change(function() {
@@ -218,7 +217,7 @@ function diaSemana(fecha) {
 
 function llenartabla(especialidad, fecha, dia) {
     let opcion = 7;
-    tablaCarrito = $('#tablaCita').DataTable({
+    tablaCita = $('#tablaCita').DataTable({
         destroy: true,
         ajax: {
             url: "bd/peticiones.php",
@@ -282,6 +281,7 @@ $(document).on("click", "#pedirCitaMedico", function() {
     let opcion = 8;
     let fila = $(this).closest('tr');
     let idMedico = parseInt(fila.find('td:eq(0)').text());
+    let licenciaMedico = parseInt(fila.find('td:eq(1)').text());
     let fecha = $("#fechaCita").val();
     let dia = diaSemana(fecha);
     let horainicio, horafinal;
@@ -299,7 +299,6 @@ $(document).on("click", "#pedirCitaMedico", function() {
                 prueba = new Date(data1[i].fechaconsulta);
                 arregloconsultas.push(prueba);
             }
-            console.log(arregloconsultas);
             opcion = 9;
             $.ajax({
                 url: "bd/peticiones.php",
@@ -311,13 +310,10 @@ $(document).on("click", "#pedirCitaMedico", function() {
                     horainicio = new Date(horainicio);
                     horafinal = fecha + " " + data2[0].horafinal;
                     horafinal = new Date(horafinal);
-                    console.log(horainicio);
-                    console.log(horafinal);
                     while (moment(horainicio).isSameOrBefore(horafinal)) {
                         bandera = true;
                         for (i in arregloconsultas) {
                             if (moment(arregloconsultas[i]).isSame(horainicio)) {
-                                console.log("si la hora era igual");
                                 bandera = false;
                                 break;
                             }
@@ -327,15 +323,61 @@ $(document).on("click", "#pedirCitaMedico", function() {
                         }
                         horainicio = moment(horainicio).add(30, 'm');
                     }
-                    console.log(arreglohorarios);
+                    (async() => {
+                        const { value: formValues } = await Swal.fire({
+                            title: 'Seleccione un horario',
+                            html: `<select class="swal2-select" id="selectHDisponibles" required></select>`,
+                            didOpen: () => {
+                                captura = $("#selectHDisponibles");
+                                for (id in arreglohorarios) {
+                                    insercion = `<option value="${arreglohorarios[id]}">${arreglohorarios[id]}</option>`
+                                    captura.append(insercion);
+                                }
+                            },
+
+                            preConfirm: () => {
+                                return new Promise(function(resolve) {
+                                    resolve([
+                                        $("#selectHDisponibles").val(),
+                                    ]);
+                                });
+                            }
+                        })
+
+                        if (formValues) {
+                            let valor = formValues;
+                            opcion = 10;
+                            console.log("aqui vamos bien " + valor[0]);
+                            $.ajax({
+                                url: "bd/peticiones.php",
+                                type: "POST",
+                                dataType: "JSON",
+                                data: { opcion: opcion, idMedico: idMedico, licenciaMedico: licenciaMedico, fechacita: valor[0] },
+                                success: function(data) {
+                                    $("#modalCita").modal('hide');
+                                    const Toast = Swal.mixin({
+                                        toast: true,
+                                        position: 'top',
+                                        showConfirmButton: false,
+                                        timer: 5000,
+                                        timerProgressBar: true,
+                                        didOpen: (toast) => {
+                                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                        }
+                                    })
+                                    Toast.fire({
+                                        icon: 'success',
+                                        title: `Cita asignada en el horario de ${valor[0]}`
+                                    })
+                                }
+                            });
+                        }
+                    })()
                 }
             })
         }
     });
-    /*arreglo = {
-        idproducto: data[i].id_producto,
-        descuento: data[i].descuento
-    };*/
 });
 
 

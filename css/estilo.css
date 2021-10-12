@@ -41,3 +41,7 @@ nav li {
 .iconmenu:hover {
     color: var(--black2);
 }
+
+#pedirCitaMedico ion-icon {
+    font-size: 30px;
+}

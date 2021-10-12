@@ -30,7 +30,7 @@ if(!isset($_SESSION['usuario'])){
 			  	<ion-icon class="iconomenu" name="calendar-number-outline"></ion-icon>
               </a>
               <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
-               <li><a class="dropdown-item" id="btnAgendarCita" href="#">Agendar cita</a></li>
+               <li><a class="dropdown-item" id="btnAgendarCita1" href="#">Agendar cita</a></li>
                <li><a class="dropdown-item" id="btnprueba" href="#">Citas agendadas</a></li>
               </ul>
             </li>
@@ -74,11 +74,11 @@ if(!isset($_SESSION['usuario'])){
 			    </div>
 			    <div class="col-md-8">
 			      <div class="card-body">
-			        <h5 class="card-title">agendar cita</h5>
+			        <h5 class="card-title">Agendar cita</h5>
 			        <p class="card-text">Conocer los datos de los pacientes a los cuales se les ha diagnosticado una determinada enfermedad. </p>
 
 			        <div class="d-grid gap-2">
-	                	<a href="#" class="btn btn-success">ir</a>
+	                	<a href="#" id="btnAgendarCita2" class="btn btn-success">ir</a>
 	              </div> 
 			      </div>
 			    </div>
@@ -140,7 +140,7 @@ if(!isset($_SESSION['usuario'])){
 						  <th>Licencia</th>           
                           <th>Medico</th>
                           <th>Especialidad</th>
-						  <th>Accion</th>
+						  <th>Pedir cita</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -155,6 +155,8 @@ if(!isset($_SESSION['usuario'])){
         </div>
       </div>
     </div>
+
+	
 	<script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.js"></script>
   	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
   	<script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.js"></script>
