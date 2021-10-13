@@ -31,7 +31,7 @@ if(!isset($_SESSION['usuario'])){
               </a>
               <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
                <li><a class="dropdown-item" id="btnAgendarCita1" href="#">Agendar cita</a></li>
-               <li><a class="dropdown-item" id="btnprueba" href="#">Citas agendadas</a></li>
+               <li><a class="dropdown-item" id="btnCitasAgendadas1" href="#">Citas agendadas</a></li>
               </ul>
             </li>
 			<li class="nav-item dropdown">
@@ -61,7 +61,7 @@ if(!isset($_SESSION['usuario'])){
 
            </div>
          </div>
-    </nav>
+  </nav>
 
 	<br><br><br><br>
 
@@ -100,7 +100,7 @@ if(!isset($_SESSION['usuario'])){
 			        <p class="card-text">Listado de pacientes a cargo de un médico de acuerdo con su especialidad.</p>
 
 			        <div class="d-grid gap-2">
-	                	<a href="#" class="btn btn-success">ir</a>
+	                	<a href="#" id="btnCitasAgendadas2" class="btn btn-success">ir</a>
 	              </div> 
 			      </div>
 			    </div>
@@ -136,11 +136,11 @@ if(!isset($_SESSION['usuario'])){
                     <table id="tablaCita" class="table table-striped table-bordered table-condense" style="width: 100%">
                       <thead class="text-center">
                         <tr>
-						  <th>Id</th>
-						  <th>Licencia</th>           
+						              <th>Id</th>
+						              <th>Licencia</th>           
                           <th>Medico</th>
                           <th>Especialidad</th>
-						  <th>Pedir cita</th>
+						              <th>Pedir cita</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -154,12 +154,53 @@ if(!isset($_SESSION['usuario'])){
           </div>
         </div>
       </div>
-    </div>
+  </div>
+
+	<!-- modal citas agendadas -->
+	<div class="modal fade"  id="modalCitasAgendadas" data-bs-focus="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-xl">
+        <div class="modal-content">                             
+          <div class="modal-body">             
+            <div class="container-xl">
+              <div class="row">
+                <div class="col-11 mt-1 mb-3">
+                  <h4>Citas Agendadas</h4>
+                </div>
+                <div class="col-1 mt-1 mb-3 d-flex justify-content-end">
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"></span>
+                  </button>
+                </div>     
+                <div class="col-lg-12">
+                  <div class="table-responsive">
+                    <table id="tablaCitasAgendadas" class="table table-striped table-bordered table-condense" style="width: 100%">
+                      <thead class="text-center">
+                        <tr>
+						              <th>Id</th>
+						              <th>Nombre</th>           
+                          <th>Medico</th>
+                          <th>Especialidad</th>
+                          <th>Tipo</th>
+						              <th>Fecha</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+              </div>
+            </div>                        
+          </div>
+        </div>
+      </div>
+  </div>
 
 	
 	<script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.js"></script>
-  	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-  	<script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.min.js" integrity="sha384-skAcpIdS7UcVUC05LJ9Dxay8AXcDYfBJqt1CJ85S/CFujBsIzCIv+l9liuYLaMQ/" crossorigin="anonymous"></script>      
 	<script type="text/javascript" src="https://cdn.datatables.net/v/bs5/dt-1.11.2/datatables.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

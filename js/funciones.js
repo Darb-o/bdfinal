@@ -184,6 +184,16 @@ $("#btnAgendarCita2").click(function(e) {
     $("#fechaCita").val("");
 });
 
+$("#btnCitasAgendadas1").click(function(e) {
+    llenarCitasAgendadas();
+    $("#modalCitasAgendadas").modal('show');
+});
+
+$("#btnCitasAgendadas2").click(function(e) {
+    llenarCitasAgendadas();
+    $("#modalCitasAgendadas").modal('show');
+});
+
 $("#fechaCita").change(function() {
     let fecha = $("#fechaCita").val();
     let especialidad = $("#mEspecialidad").val();
@@ -193,6 +203,51 @@ $("#fechaCita").change(function() {
         llenartabla(especialidad, fecha, dia);
     }
 });
+
+function llenarCitasAgendadas() {
+    let opcion = 11;
+    tablaCita = $('#tablaCitasAgendadas').DataTable({
+        destroy: true,
+        ajax: {
+            url: "bd/peticiones.php",
+            method: "POST",
+            data: { opcion: opcion },
+            dataSrc: "",
+        },
+        language: {
+            sProcessing: "Procesando...",
+            sLengthMenu: "Mostrar _MENU_ registros",
+            sZeroRecords: "No se encontraron resultados",
+            sEmptyTable: "Ningún dato disponible en esta tabla",
+            sInfo: "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+            sInfoEmpty: "Mostrando registros del 0 al 0 de un total de 0 registros",
+            sInfoFiltered: "(filtrado de un total de _MAX_ registros)",
+            sInfoPostFix: "",
+            sSearch: "Buscar:",
+            sUrl: "",
+            sInfoThousands: ",",
+            sLoadingRecords: "Cargando...",
+            oPaginate: {
+                sFirst: "Primero",
+                sLast: "Último",
+                sNext: "Siguiente",
+                sPrevious: "Anterior"
+            },
+            oAria: {
+                sSortAscending: ": Activar para ordenar la columna de manera ascendente",
+                sSortDescending: ": Activar para ordenar la columna de manera descendente"
+            }
+        },
+        columns: [
+            { title: "Id", data: "idpaciente" },
+            { title: "Nombre", data: "nombre" },
+            { title: "Medico", data: "nombre_medico" },
+            { title: "Tipo", data: "especialidad" },
+            { title: "Diagnostico", data: "diagnostico" },
+            { title: "Fecha", data: "fechaconsulta" },
+        ]
+    });
+}
 
 $(document).on("change", "#mEspecialidad", function() {
     let fecha = $("#fechaCita").val();
@@ -224,23 +279,6 @@ function llenartabla(especialidad, fecha, dia) {
             method: "POST",
             data: { opcion: opcion, especialidad: especialidad, diasemana: dia, fechacita: fecha },
             dataSrc: "",
-            error: function(jqXHR, textStatus, errorThrown) {
-                if (jqXHR.status === 0) {
-                    alert('Not connect: Verify Network.');
-                } else if (jqXHR.status == 404) {
-                    alert('Requested page not found [404]');
-                } else if (jqXHR.status == 500) {
-                    alert('Internal Server Error [500].');
-                } else if (textStatus === 'parsererror') {
-                    alert('Requested JSON parse failed.');
-                } else if (textStatus === 'timeout') {
-                    alert('Time out error.');
-                } else if (textStatus === 'abort') {
-                    alert('Ajax request aborted.');
-                } else {
-                    alert('Uncaught Error: ' + jqXHR.responseText);
-                }
-            }
         },
         language: {
             sProcessing: "Procesando...",
@@ -379,7 +417,6 @@ $(document).on("click", "#pedirCitaMedico", function() {
         }
     });
 });
-
 
 function llenarEspecialidad() {
     let insercion = `<select class="form-select" id="mEspecialidad" aria-label="Floating label select example">`;

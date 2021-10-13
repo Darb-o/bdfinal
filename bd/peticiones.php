@@ -110,6 +110,19 @@
             $sql = "insert into cita (idmedico,numlicencia,idpaciente,fechaconsulta) values($idMedico,$licenciaMedico,$paciente,'$fechacita')";
             $sentencia = $link->query($sql);
             break;
+        case 11://llenar tabla de citas agendadas
+            $paciente = $_SESSION['usuario'];
+            $sql = "select ci.idpaciente, p.nombre, pe.nombre as nombre_medico,ti.especialidad, ci.diagnostico, ci.fechaconsulta
+            from cita ci join persona p on (ci.idpaciente = p.idpersona)
+            join medico m on (ci.idmedico = m.idmedico)
+            join especialidad es on (es.idmedico = m.idmedico)
+            join tipoespecialidad ti on (ti.idespecialidad = es.idespecialidad) 
+            join empleado em on (m.idmedico = em.idempleado) 
+            join persona pe on (em.idempleado = pe.idpersona)
+            where ci.idpaciente = $paciente ";
+            $sentencia = $link->query($sql);
+            $data=$sentencia->fetchAll(PDO::FETCH_OBJ);
+            break;
     };
     print json_encode($data,JSON_UNESCAPED_UNICODE);
 ?>
