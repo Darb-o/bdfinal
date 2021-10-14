@@ -271,15 +271,7 @@ $("#formRegistrarEmpleado").submit(function(event) {
                                 })()
                             },
                         });
-                        /*$.ajax({
-                            url: "bd/otraspeticiones.php",
-                            type: "POST",
-                            dataType: "JSON",
-                            data: { opcion: opcion },
-                            success: function(data) {
 
-                            },
-                        });*/
                     } else {
                         alerta('error', 'La fecha de inicio contrato no puede ser mayor a la de termina');
                     }
@@ -348,3 +340,26 @@ function alerta(tipo, mensaje) {
         title: mensaje
     })
 }
+
+$("#btnCerrarSesion").click(function(e) {
+    let opcion = 5;
+    e.preventDefault();
+    Swal.fire({
+        title: 'Estas seguro?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, cierra la sesion!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: 'bd/peticiones.php',
+                type: 'POST',
+                dataType: 'JSON',
+                data: { opcion: opcion }
+            });
+            window.location.href = 'index.php';
+        }
+    })
+});

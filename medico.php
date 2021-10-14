@@ -1,13 +1,13 @@
 <?php
 //esta comentado porque toca hacer la parte de registrarse medico porque la contraseña esta cifrada
 session_start();
-/*if(isset($_SESSION['usuario'])){
+if(isset($_SESSION['usuario'])){
   if($_SESSION['rol'] == 2){
     header('Location: usuario.php');
   }
 }else{
   header('Location: index.php');
-}*/
+}
 ?>
 <!DOCTYPE html>
 <html>

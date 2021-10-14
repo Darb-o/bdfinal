@@ -143,8 +143,10 @@ $("#formInicioSesion").submit(function(e) {
                 opcion = data[0].rol_fk;
                 if (opcion == 2) {
                     window.location.href = 'usuario.php';
-                } else {
+                } else if (opcion == 3) {
                     window.location.href = 'medico.php';
+                } else {
+                    window.location.href = 'ingreso.php';
                 }
             }
         },
@@ -183,6 +185,45 @@ $("#btnAgendarCita2").click(function(e) {
     $("#modalCita").modal('show');
     $("#fechaCita").val("");
 });
+// --------------------*-----------------------------
+$("#btnmedicosdisponibles").click(function(e) {
+
+    medicoCargo();
+    $("#modalmedicos").modal('show');
+
+});
+//--------------------*-----------------------------
+
+// --------------------*-----------------------------
+
+$('#btnmedicosvacaciones').click(function(e) {
+
+    medicoVacaciones();
+    $("#modalvacaciones").modal('show');
+
+});
+
+// --------------------*-----------------------------
+
+// pacientes diagnosticados
+$('#btndiagnostico').click(function(e) {
+
+    diagnosticopacientes();
+    $("#modalpacientesdiagnosticados").modal('show');
+
+});
+// fin pacientes diagnosticados
+
+//listado pacientes
+
+$('#btnlistadopacientes').click(function(e) {
+
+    listadoPacientes();
+    $("#listadopacientes").modal('show');
+
+});
+
+//fin listado pacientes
 
 $("#btnCitasAgendadas1").click(function(e) {
     llenarCitasAgendadas();
@@ -245,6 +286,187 @@ function llenarCitasAgendadas() {
             { title: "Tipo", data: "especialidad" },
             { title: "Diagnostico", data: "diagnostico" },
             { title: "Fecha", data: "fechaconsulta" },
+        ]
+    });
+}
+
+function medicoCargo() {
+    let opcion = 12;
+    tablaCita = $('#tablaMedicos').DataTable({
+        destroy: true,
+        ajax: {
+            url: "bd/peticiones.php",
+            method: "POST",
+            data: { opcion: opcion },
+            dataSrc: "",
+        },
+        language: {
+            sProcessing: "Procesando...",
+            sLengthMenu: "Mostrar _MENU_ registros",
+            sZeroRecords: "No se encontraron resultados",
+            sEmptyTable: "Ningún dato disponible en esta tabla",
+            sInfo: "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+            sInfoEmpty: "Mostrando registros del 0 al 0 de un total de 0 registros",
+            sInfoFiltered: "(filtrado de un total de _MAX_ registros)",
+            sInfoPostFix: "",
+            sSearch: "Buscar:",
+            sUrl: "",
+            sInfoThousands: ",",
+            sLoadingRecords: "Cargando...",
+            oPaginate: {
+                sFirst: "Primero",
+                sLast: "Último",
+                sNext: "Siguiente",
+                sPrevious: "Anterior"
+            },
+            oAria: {
+                sSortAscending: ": Activar para ordenar la columna de manera ascendente",
+                sSortDescending: ": Activar para ordenar la columna de manera descendente"
+            }
+        },
+        columns: [
+            { title: "NumLicencia", data: "numlicencia" },
+            { title: "idmedico", data: "idmedico" },
+            { title: "nombre", data: "nombre" },
+            { title: "especialidad", data: "especialidad" },
+            { title: "tipomedico", data: "tipomedico" }
+        ]
+    });
+}
+
+function medicoVacaciones() {
+    let opcion = 13;
+    tablaCita = $('#tablavacaciones').DataTable({
+        destroy: true,
+        ajax: {
+            url: "bd/peticiones.php",
+            method: "POST",
+            data: { opcion: opcion },
+            dataSrc: "",
+        },
+        language: {
+            sProcessing: "Procesando...",
+            sLengthMenu: "Mostrar _MENU_ registros",
+            sZeroRecords: "No se encontraron resultados",
+            sEmptyTable: "Ningún dato disponible en esta tabla",
+            sInfo: "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+            sInfoEmpty: "Mostrando registros del 0 al 0 de un total de 0 registros",
+            sInfoFiltered: "(filtrado de un total de _MAX_ registros)",
+            sInfoPostFix: "",
+            sSearch: "Buscar:",
+            sUrl: "",
+            sInfoThousands: ",",
+            sLoadingRecords: "Cargando...",
+            oPaginate: {
+                sFirst: "Primero",
+                sLast: "Último",
+                sNext: "Siguiente",
+                sPrevious: "Anterior"
+            },
+            oAria: {
+                sSortAscending: ": Activar para ordenar la columna de manera ascendente",
+                sSortDescending: ": Activar para ordenar la columna de manera descendente"
+            }
+        },
+        columns: [
+            { title: "NumLicencia", data: "numlicencia" },
+            { title: "idmedico", data: "idmedico" },
+            { title: "nombre", data: "nombre" },
+            { title: "tipomedico", data: "tipomedico" },
+            { title: "fechainicio", data: "fechainicio" },
+            { title: "fechatermina", data: "fechatermina" }
+        ]
+    });
+}
+
+
+function diagnosticopacientes() {
+    let opcion = 14;
+    tablaCita = $('#tablaDiagnosticos').DataTable({
+        destroy: true,
+        ajax: {
+            url: "bd/peticiones.php",
+            method: "POST",
+            data: { opcion: opcion },
+            dataSrc: "",
+        },
+        language: {
+            sProcessing: "Procesando...",
+            sLengthMenu: "Mostrar _MENU_ registros",
+            sZeroRecords: "No se encontraron resultados",
+            sEmptyTable: "Ningún dato disponible en esta tabla",
+            sInfo: "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+            sInfoEmpty: "Mostrando registros del 0 al 0 de un total de 0 registros",
+            sInfoFiltered: "(filtrado de un total de _MAX_ registros)",
+            sInfoPostFix: "",
+            sSearch: "Buscar:",
+            sUrl: "",
+            sInfoThousands: ",",
+            sLoadingRecords: "Cargando...",
+            oPaginate: {
+                sFirst: "Primero",
+                sLast: "Último",
+                sNext: "Siguiente",
+                sPrevious: "Anterior"
+            },
+            oAria: {
+                sSortAscending: ": Activar para ordenar la columna de manera ascendente",
+                sSortDescending: ": Activar para ordenar la columna de manera descendente"
+            }
+        },
+        columns: [
+            { title: "idcita", data: "idcita" },
+            { title: "idmedico", data: "idmedico" },
+            { title: "numlicencia", data: "numlicencia" },
+            { title: "idpaciente", data: "idpaciente" },
+            { title: "diagnostico", data: "diagnostico" },
+            { title: "fechaconsulta", data: "fechaconsulta" }
+
+        ]
+    });
+}
+
+
+function listadoPacientes() {
+    let opcion = 15;
+    tablaCita = $('#tablapacientes').DataTable({
+        destroy: true,
+        ajax: {
+            url: "bd/peticiones.php",
+            method: "POST",
+            data: { opcion: opcion },
+            dataSrc: "",
+        },
+        language: {
+            sProcessing: "Procesando...",
+            sLengthMenu: "Mostrar _MENU_ registros",
+            sZeroRecords: "No se encontraron resultados",
+            sEmptyTable: "Ningún dato disponible en esta tabla",
+            sInfo: "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+            sInfoEmpty: "Mostrando registros del 0 al 0 de un total de 0 registros",
+            sInfoFiltered: "(filtrado de un total de _MAX_ registros)",
+            sInfoPostFix: "",
+            sSearch: "Buscar:",
+            sUrl: "",
+            sInfoThousands: ",",
+            sLoadingRecords: "Cargando...",
+            oPaginate: {
+                sFirst: "Primero",
+                sLast: "Último",
+                sNext: "Siguiente",
+                sPrevious: "Anterior"
+            },
+            oAria: {
+                sSortAscending: ": Activar para ordenar la columna de manera ascendente",
+                sSortDescending: ": Activar para ordenar la columna de manera descendente"
+            }
+        },
+        columns: [
+
+            { title: "idpaciente", data: "idpaciente" },
+            { title: "Nombre", data: "nombre" },
+            { title: "Nombre", data: "nombre_medico" },
+            { title: "especialidad", data: "especialidad" }
         ]
     });
 }

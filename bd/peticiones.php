@@ -123,6 +123,36 @@
             $sentencia = $link->query($sql);
             $data=$sentencia->fetchAll(PDO::FETCH_OBJ);
             break;
+            case 12://mostrar listado de pacientes
+                $sql = "select verificarestadomedico()"; 
+                $sentencia = $link->query($sql); 
+                $sql = "select * from medicoslicencia";
+                $sentencia = $link->query($sql);
+                $data=$sentencia->fetchAll(PDO::FETCH_OBJ);
+                break;  
+            case 13://medicos en vacaciones
+                $sql = "select verificarestadovacaciones()"; 
+                $sentencia = $link->query($sql); 
+                $sql = "select * from medicosvacaciones";
+                $sentencia = $link->query($sql);
+                $data=$sentencia->fetchAll(PDO::FETCH_OBJ);
+                break;   
+            case 14:
+                $sql = "select * from cita";
+                $sentencia = $link->query($sql);
+                $data=$sentencia->fetchAll(PDO::FETCH_OBJ);
+                break;    
+            
+            case 15:
+                $sql = "select distinct ci.idpaciente, p.nombre, pe.nombre as nombre_medico, es.especialidad
+                from cita ci join persona p on (ci.idpaciente = p.idpersona)
+               join medico m on (ci.idmedico = m.idmedico)
+               join especialidad e on (e.idmedico = m.idmedico)
+               join tipoespecialidad es on (es.idespecialidad = e.idespecialidad)
+               join persona pe on (m.idmedico = pe.idpersona)";
+                $sentencia = $link->query($sql);
+                $data=$sentencia->fetchAll(PDO::FETCH_OBJ);
+                break;
     };
     print json_encode($data,JSON_UNESCAPED_UNICODE);
 ?>
